@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.testtask.myapplication.R
 import com.testtask.myapplication.databinding.ActivityMainBinding
 import com.testtask.myapplication.presentation.contract.Navigator
+import com.testtask.myapplication.presentation.contract.webNavigator
 import com.testtask.myapplication.presentation.ui.fragments.StartFragment
 import com.testtask.myapplication.presentation.ui.fragments.WebViewFragment
 import com.testtask.myapplication.presentation.viewmodel.AppViewModel
@@ -48,9 +49,13 @@ class MainActivity : AppCompatActivity(), Navigator {
 
     private fun launchFragment(fragment: Fragment, isAddToBackStack: Boolean) {
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.app_fragment_container, fragment)
+            replace(R.id.app_fragment_container, fragment, fragment::class.simpleName)
             if (isAddToBackStack) addToBackStack(fragment::class.simpleName)
             commit()
         }
+    }
+
+    override fun onBackPressed() {
+        webNavigator().loadPreviousPage()
     }
 }

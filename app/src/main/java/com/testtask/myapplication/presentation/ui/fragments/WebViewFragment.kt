@@ -9,13 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.testtask.myapplication.BuildConfig
 import com.testtask.myapplication.R
-import com.testtask.myapplication.app.App
 import com.testtask.myapplication.domain.model.User
 import com.testtask.myapplication.presentation.contract.NetworkStateListener
+import com.testtask.myapplication.presentation.contract.WebNavigator
 import com.testtask.myapplication.presentation.viewmodel.AppViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class WebViewFragment : Fragment(R.layout.fragment_webview) {
+class WebViewFragment : Fragment(R.layout.fragment_webview), WebNavigator {
 
     private val viewModel: AppViewModel by sharedViewModel()
 
@@ -88,7 +88,15 @@ class WebViewFragment : Fragment(R.layout.fragment_webview) {
                 }
                 return true
             }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+            }
         }
+    }
+
+    override fun loadPreviousPage() {
+        webView.goBack()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
