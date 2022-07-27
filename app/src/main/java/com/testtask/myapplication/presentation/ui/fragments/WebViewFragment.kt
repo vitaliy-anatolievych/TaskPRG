@@ -1,19 +1,19 @@
 package com.testtask.myapplication.presentation.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.testtask.myapplication.BuildConfig
 import com.testtask.myapplication.R
+import com.testtask.myapplication.app.App
 import com.testtask.myapplication.domain.model.User
-import com.testtask.myapplication.presentation.ui.MainActivity
+import com.testtask.myapplication.presentation.contract.NetworkStateListener
 import com.testtask.myapplication.presentation.viewmodel.AppViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WebViewFragment : Fragment(R.layout.fragment_webview) {
 
@@ -26,9 +26,33 @@ class WebViewFragment : Fragment(R.layout.fragment_webview) {
         super.onViewCreated(view, savedInstanceState)
         webView = view.findViewById(R.id.app_vew_view)
 
+        listenNetworkState()
         loadUser()
         loadUrl()
         webViewClientSettings()
+    }
+
+    private fun listenNetworkState() {
+        NetworkStateListener.registerListener(requireActivity() as AppCompatActivity)
+
+        val noInternetDialog = NoInternetFragment().also {
+            it.isCancelable = false
+        }
+
+        NetworkStateListener.networkState = { isNetworkWork ->
+            if (isNetworkWork) {
+                if (noInternetDialog.isVisible) {
+                    noInternetDialog.dismiss()
+                }
+            } else {
+                if (!noInternetDialog.isVisible) {
+                    noInternetDialog.show(
+                        parentFragmentManager,
+                        NoInternetFragment::class.simpleName
+                    )
+                }
+            }
+        }
     }
 
     private fun loadUser() {
