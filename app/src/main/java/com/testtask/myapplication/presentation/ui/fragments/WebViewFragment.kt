@@ -1,6 +1,7 @@
 package com.testtask.myapplication.presentation.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -8,23 +9,33 @@ import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import com.testtask.myapplication.BuildConfig
 import com.testtask.myapplication.R
+import com.testtask.myapplication.domain.model.User
+import com.testtask.myapplication.presentation.ui.MainActivity
 import com.testtask.myapplication.presentation.viewmodel.AppViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class WebViewFragment: Fragment(R.layout.fragment_webview) {
+class WebViewFragment : Fragment(R.layout.fragment_webview) {
 
-    private val viewModel: AppViewModel by viewModel()
+    private val viewModel: AppViewModel by sharedViewModel()
+
+    private lateinit var user: User
+    private lateinit var webView: WebView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        webView = view.findViewById(R.id.app_vew_view)
 
-        val webView = view.findViewById<WebView>(R.id.app_vew_view)
-
-        loadUrl(webView)
-        webViewClientSettings(webView)
+        loadUser()
+        loadUrl()
+        webViewClientSettings()
     }
 
-    private fun loadUrl(webView: WebView) {
+    private fun loadUser() {
+        user = viewModel.userData.value ?: throw NullPointerException("before load WebViewFragment, make viewModel.getUser()")
+    }
+
+    private fun loadUrl() {
 
         arguments?.getString(URL, BuildConfig.DEFAULT_LOADING_LINK).apply {
             if (this == null) {
@@ -35,7 +46,7 @@ class WebViewFragment: Fragment(R.layout.fragment_webview) {
         }
     }
 
-    private fun webViewClientSettings(webView: WebView) {
+    private fun webViewClientSettings() {
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                 url?.let {
@@ -58,7 +69,7 @@ class WebViewFragment: Fragment(R.layout.fragment_webview) {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
+        viewModel.saveUser(user.copy(lastLink = webView.url))
     }
 
     companion object {
@@ -67,7 +78,7 @@ class WebViewFragment: Fragment(R.layout.fragment_webview) {
         @JvmStatic
         fun newInstance(url: String?): WebViewFragment =
             WebViewFragment().apply {
-                Bundle().apply {
+                arguments = Bundle().apply {
                     putString(URL, url)
                 }
             }
