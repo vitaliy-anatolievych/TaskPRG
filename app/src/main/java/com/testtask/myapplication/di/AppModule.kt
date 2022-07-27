@@ -8,7 +8,8 @@ val appModule = module {
 
     viewModel {
         AppViewModel(
-            saveUserUseCase = get()
+            saveUserUseCase = get(),
+            getUserUseCase = get()
         )
     }
 }

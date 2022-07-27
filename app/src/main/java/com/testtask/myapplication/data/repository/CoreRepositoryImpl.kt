@@ -9,9 +9,7 @@ class CoreRepositoryImpl(
     private var localCache: LocalCache
 ): CoreRepository {
 
-    override fun getUserInfo(): User {
-        TODO("Not yet implemented")
-    }
+    override fun getUserInfo(): User? = localCache.getUser()
 
     override fun saveUser(user: User): None = localCache.saveUser(user)
 

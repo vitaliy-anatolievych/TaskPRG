@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.testtask.myapplication.core.type.None
 import com.testtask.myapplication.domain.model.User
-
 class LocalCacheImpl(
     private val prefsManager: SharedPreferences
 ): LocalCache {
@@ -17,7 +16,14 @@ class LocalCacheImpl(
         return None()
     }
 
+    override fun getUser(): User? {
+        val json = prefsManager.getString(USER_PROFILE, null)
+        return Gson().fromJson(json, User::class.java)
+    }
+
+
     companion object {
         private const val USER_PROFILE = "user_profile"
     }
 }
+
