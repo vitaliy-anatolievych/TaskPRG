@@ -1,11 +1,6 @@
 package com.testtask.myapplication.app
 
 import android.app.Application
-import android.util.Log
-import com.appsflyer.AppsFlyerLib
-import com.appsflyer.attribution.AppsFlyerRequestListener
-import com.onesignal.OneSignal
-import com.testtask.myapplication.BuildConfig
 import com.testtask.myapplication.app.services.RemoteServices
 import com.testtask.myapplication.di.appModule
 import com.testtask.myapplication.di.dataModule

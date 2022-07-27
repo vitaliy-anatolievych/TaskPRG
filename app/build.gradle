@@ -6,6 +6,7 @@ plugins {
 
 android {
     compileSdk 32
+    flavorDimensions "default"
 
     defaultConfig {
         applicationId "com.testtask.myapplication"
@@ -23,6 +24,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    productFlavors {
+        stading {
+            applicationIdSuffix ".stading"
+            buildConfigField 'String', 'APP_STORAGE', '"core_application_storage"'
+        }
+        prod {
+            buildConfigField 'String', 'APP_STORAGE', '"core_application_storage"'
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

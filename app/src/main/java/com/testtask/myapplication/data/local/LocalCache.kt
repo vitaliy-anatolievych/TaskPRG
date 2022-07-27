@@ -1,9 +1,8 @@
-package com.testtask.myapplication.domain.repository
+package com.testtask.myapplication.data.local
 
 import com.testtask.myapplication.core.type.None
 import com.testtask.myapplication.domain.model.User
 
-interface CoreRepository {
-    fun getUserInfo(): User
+interface LocalCache {
     fun saveUser(user: User): None
 }
