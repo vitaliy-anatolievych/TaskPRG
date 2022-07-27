@@ -10,7 +10,7 @@ fun Fragment.navigator(): Navigator {
 
 interface Navigator {
 
-    fun goToWebFragment()
+    fun goToWebFragment(url: String?)
 
     fun exitFromApp()
 }

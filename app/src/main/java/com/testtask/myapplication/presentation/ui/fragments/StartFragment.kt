@@ -26,7 +26,7 @@ class StartFragment: Fragment() {
 
     private fun onAcceptTerms() {
         viewModel.saveUser(User(isAcceptedTerms = true))
-        navigator().goToWebFragment()
+        navigator().goToWebFragment(null)
     }
 
     private fun onDeclineTerms() {

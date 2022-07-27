@@ -29,9 +29,11 @@ android {
         stading {
             applicationIdSuffix ".stading"
             buildConfigField 'String', 'APP_STORAGE', '"core_application_storage"'
+            buildConfigField 'String', 'DEFAULT_LOADING_LINK', '"https://www.google.com/"'
         }
         prod {
             buildConfigField 'String', 'APP_STORAGE', '"core_application_storage"'
+            buildConfigField 'String', 'DEFAULT_LOADING_LINK', '"https://www.google.com/"'
         }
     }
 

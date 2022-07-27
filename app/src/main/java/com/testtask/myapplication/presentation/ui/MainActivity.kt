@@ -32,13 +32,13 @@ class MainActivity : AppCompatActivity(), Navigator {
             if (user == null) {
                 launchFragment(StartFragment(), false)
             } else {
-                goToWebFragment()
+                goToWebFragment(user.lastLink)
             }
         }
     }
 
-    override fun goToWebFragment() {
-        launchFragment(WebViewFragment(), false)
+    override fun goToWebFragment(url: String?) {
+        launchFragment(WebViewFragment.newInstance(url), false)
     }
 
     override fun exitFromApp() {
