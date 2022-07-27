@@ -1,7 +1,6 @@
 package com.testtask.myapplication.presentation.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.testtask.myapplication.R
@@ -25,6 +24,10 @@ class MainActivity : AppCompatActivity(), Navigator {
             viewModel.getUser()
         }
 
+        launchApp()
+    }
+
+    private fun launchApp() {
         viewModel.userData.observe(this) { user ->
             if (user == null) {
                 launchFragment(StartFragment(), false)
