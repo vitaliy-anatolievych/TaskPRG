@@ -8,8 +8,12 @@ import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import com.testtask.myapplication.BuildConfig
 import com.testtask.myapplication.R
+import com.testtask.myapplication.presentation.viewmodel.AppViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WebViewFragment: Fragment(R.layout.fragment_webview) {
+
+    private val viewModel: AppViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,6 +54,11 @@ class WebViewFragment: Fragment(R.layout.fragment_webview) {
                 return true
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
     }
 
     companion object {
