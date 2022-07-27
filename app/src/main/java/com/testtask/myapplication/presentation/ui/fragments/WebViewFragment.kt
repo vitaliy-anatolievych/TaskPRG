@@ -22,6 +22,13 @@ class WebViewFragment : Fragment(R.layout.fragment_webview), WebNavigator {
     private lateinit var user: User
     private lateinit var webView: WebView
 
+    override fun onStart() {
+        super.onStart()
+        if (viewModel.userData.value == null) {
+            viewModel.getUser()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         webView = view.findViewById(R.id.app_vew_view)
@@ -56,7 +63,11 @@ class WebViewFragment : Fragment(R.layout.fragment_webview), WebNavigator {
     }
 
     private fun loadUser() {
-        user = viewModel.userData.value ?: throw NullPointerException("before load WebViewFragment, make viewModel.getUser()")
+        viewModel.userData.observe(viewLifecycleOwner) { current_user ->
+            current_user?.let {
+                user = current_user
+            }
+        }
     }
 
     private fun loadUrl() {
